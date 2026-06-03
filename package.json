@@ -1,0 +1,13 @@
+{
+  "name": "lookahead-processing-firebase",
+  "version": "1.0.0",
+  "description": "Procesamiento de Look-Ahead y control de PPC en Firestore",
+  "main": "importar_datos.js",
+  "scripts": {
+    "import": "node importar_datos.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "xlsx": "^0.18.5"
+  }
+}

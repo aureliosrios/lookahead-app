@@ -1,0 +1,17 @@
+# Firebase admin credentials
+lookahead-carretera-10km-firebase-adminsdk-*.json
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# System files & Temporary files
+.DS_Store
+Thumbs.db
+~$*.xlsx
+*.log
+
+# Local environment files
+.env
+.env.local
+.env.*.local

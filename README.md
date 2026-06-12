@@ -1,34 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lookahead & PPC Control System (Next.js + Firestore + Vercel)
 
-## Getting Started
+Este sistema en la nube automatiza y centraliza el control de planificación y avance de obras de construcción civil mediante la metodología **Lookahead (a 3 semanas)** y el indicador de desempeño **PPC (Porcentaje de Plan Completado)**.
 
-First, run the development server:
+---
 
+## 🚀 ¿Qué se ha completado hasta ahora?
+
+1.  **Migración a Arquitectura Cloud:**
+    *   Pasamos de un script de simulación local a una aplicación web full-stack con **Next.js (App Router)** y **TypeScript**.
+    *   Desplegado exitosamente en **Vercel** (`https://lookahead-app.vercel.app`) y conectado a **Firebase Firestore**.
+2.  **Lógica del Backend Serverless (API Routes):**
+    *   `POST /api/avance`: Registra los partes diarios de campo en la colección `avance_diario_campo` y recalcula de manera automática y ponderada (basada en costos) el avance porcentual del hito padre Nivel 3.
+    *   `GET/POST /api/lookahead`: Administra la jerarquía completa (L3, L4, L5) e inserta la programación detallada de subactividades (Nivel 4) y compromisos de avance semanal (Nivel 5) ingresados por el equipo.
+    *   `POST /api/cierre-semana`: Ejecuta el corte semanal evaluando compromisos planificados versus avances reales diarios. Calcula el PPC (%) y guarda los históricos de rendimiento.
+3.  **Interfaz de Usuario Premium Adaptable:**
+    *   Diseñada con una estética oscura premium, glassmorphism, curvas SVG de rendimiento e interactividad en tiempo real.
+    *   **Vista Móvil (Colaborador de Campo):** Formularios táctiles y optimizados para reportar avances físicos diarios (L5) y estructurar/programar subactividades (L4).
+    *   **Vista Laptop (Ingeniero de Planeamiento):** Tablero con métricas clave, gráfico de barras del PPC, gestor del Plan Semanal y matriz jerárquica de Lookahead completa.
+4.  **Seguridad y Repositorio Limpio:**
+    *   Sincronizado con GitHub sin comprometer claves privadas. La cuenta de servicio de Firebase ahora se lee localmente a través de un JSON ignorado por git, y en producción se alimenta de manera segura mediante variables de entorno en Vercel.
+
+---
+
+## 🛠️ Instrucciones de Ejecución y Mantenimiento
+
+### 1. Servidor de Desarrollo Local
+Para levantar el servidor web de forma local:
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+La aplicación estará disponible en `http://localhost:3000`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Carga y Sincronización Inicial de Datos (Excel a Nube)
+Si necesitas reiniciar la base de datos o subir nuevos datos de origen desde tus hojas Excel locales (`pry_carretera_...xlsx`):
+```bash
+npm run import-data
+```
+Este comando ejecutará el script `importar_datos.js`, subiendo instantáneamente el WBS de Nivel 3 y Nivel 5 a Firestore en la nube.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Configuración de Variables de Entorno en Vercel
+En la pestaña **Settings > Environment Variables** de tu panel de Vercel se encuentran configuradas:
+*   `FIREBASE_PROJECT_ID`
+*   `FIREBASE_CLIENT_EMAIL`
+*   `FIREBASE_PRIVATE_KEY`
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🎯 ¿A dónde queremos llegar? (Próximos Objetivos)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Cuando regreses a esta carpeta, podemos continuar con las siguientes metas del roadmap:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+*   [ ] **Autenticación y Control de Accesos:** Implementar Firebase Auth para que el personal de campo y de planeamiento tengan credenciales separadas y la aplicación bloquee o redireccione automáticamente al rol correspondiente al iniciar sesión.
+*   [ ] **Alertas de Desviación y Pareto de Pérdidas:** Agregar una sección en el dashboard de planeamiento que clasifique automáticamente las causas de incumplimiento (ej. clima, maquinaria, mano de obra) con gráficos dinámicos para tomar decisiones correctivas.
+*   [ ] **Reportabilidad Automatizada:** Crear endpoints para exportar el reporte Lookahead y PPC de la semana a formato PDF firmado o Excel listo para compartir.
+*   [ ] **Curva S Física y Financiera:** Incorporar el cálculo acumulado del valor ganado para proyectar la curva real de la obra frente a la línea base directamente en el dashboard del Ingeniero de Planeamiento.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*¡Que tengas una buena pausa! El proyecto en la nube está completamente operativo y listo para continuar cuando regreses.*
